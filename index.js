@@ -62,12 +62,13 @@ app.post("/api/shorturl", async function (req, res) {
 	});
 });
 
-app.get("/api/shorturl/:id", function (req, res) {
-	const url = Link.findOne({ _id: req.params.id });
+app.get("/api/shorturl/:num", async function (req, res) {
+	const url = await Link.findOne({ short_url: req.params.num });
+	console.log(url);
 	if (!url) {
 		res.json({ error: "No short URL found for the given input" });
 	} else {
-		res.redirect(url);
+		res.redirect(url.original_url);
 	}
 });
 
